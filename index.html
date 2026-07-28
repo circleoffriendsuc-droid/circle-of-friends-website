@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circle of Friends Upliftment Centre</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+           <img src="assets/images/logo.jpeg" alt="Circle of Friends Logo">
+        <h1>Circle of Friends Upliftment Centre</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="services.html">Programme</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h2>Empowering Our Community</h2>
+            <p>Welcome to the Circle of Friends Upliftment Centre. Changing lives together through dedication, support, and community upliftment.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Circle of Friends Upliftment Centre. All rights reserved.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>
+</body>
+</html>
