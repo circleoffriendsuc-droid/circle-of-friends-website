@@ -1,0 +1,46 @@
+backend:
+  name: git-gateway
+  branch: main # Change to 'master' if your default GitHub branch is master
+
+media_folder: "assets/images"
+public_folder: "/assets/images"
+
+collections:
+  - name: "pages"
+    label: "Pages"
+    delete: false
+    files:
+      - file: "index.html"
+        label: "Home Page"
+        name: "index"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Main Content", name: "body", widget: "markdown" }
+
+      - file: "about.html"
+        label: "About Us Page"
+        name: "about"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Main Content", name: "body", widget: "markdown" }
+
+      - file: "services.html"
+        label: "Services Page"
+        name: "services"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Main Content", name: "body", widget: "markdown" }
+
+      - file: "gallery.html"
+        label: "Gallery Page"
+        name: "gallery"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Main Content", name: "body", widget: "markdown" }
+
+      - file: "contact.html"
+        label: "Contact Page"
+        name: "contact"
+        fields:
+          - { label: "Page Title", name: "title", widget: "string" }
+          - { label: "Main Content", name: "body", widget: "markdown" }
