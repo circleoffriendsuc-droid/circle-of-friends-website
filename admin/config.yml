@@ -2,11 +2,12 @@ backend:
   name: git-gateway
   branch: main
 
+# Path configuration for site media and admin logo
 media_folder: "assets/images"
 public_folder: "/assets/images"
-
 logo_url: /assets/images/logo.jpeg
 
+# CMS Collections Configuration
 collections:
   - name: "gallery"
     label: "Gallery Images"
@@ -16,4 +17,3 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Image", name: "image", widget: "image" }
-      - { label: "Alt Text", name: "alt", widget: "string", required: false }

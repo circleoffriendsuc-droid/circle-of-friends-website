@@ -1,18 +1,30 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Circle of Friends - Admin Dashboard</title>
-  <!-- Netlify Identity widget for user login -->
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-</head>
-<body>
-  <!-- Decap CMS core script -->
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-</body>
-<!-- Example if files are inside subfolders -->
-<link rel="stylesheet" href="css/style.css">
-<script src="js/script.js"></script>
-<img src="images/logo.jpeg" alt="Logo">
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Circle of Friends - Admin Dashboard</title>
+    <!-- Netlify Identity Widget -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    
+    <!-- Custom styling to pin the logo to the bottom left of the dashboard -->
+    <style>
+      .admin-corner-logo {
+        position: fixed;
+        bottom: 15px;
+        left: 15px;
+        width: 110px;
+        height: auto;
+        z-index: 99999;
+        pointer-events: none; /* Prevents logo from blocking clicks on CMS UI elements */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Decap CMS Application -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+    <!-- Admin Dashboard Bottom Left Logo -->
+    <img src="/assets/images/logo.jpeg" alt="Circle of Friends Logo" class="admin-corner-logo" />
+  </body>
 </html>
