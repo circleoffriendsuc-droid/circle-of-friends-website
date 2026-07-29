@@ -33,21 +33,21 @@
       
       <div class="gallery-grid">
         <div class="gallery-item" onclick="openModal(0)">
-          <img src="/assets/images/gallery-1.jpg" alt="Activity Image 1" onerror="this.src='/assets/images/logo.jpeg'">
+          <img src="/assets/images/photo1.jpeg" alt="Gallery Photo 1" onerror="this.src='/assets/images/logo.jpeg'">
         </div>
         <div class="gallery-item" onclick="openModal(1)">
-          <img src="/assets/images/gallery-2.jpg" alt="Activity Image 2" onerror="this.src='/assets/images/logo.jpeg'">
+          <img src="/assets/images/photo2.jpeg" alt="Gallery Photo 2" onerror="this.src='/assets/images/logo.jpeg'">
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Fullscreen Lightbox Modal -->
+  <!-- Lightbox Modal -->
   <div id="imageModal" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal()">&times;</span>
       <span class="modal-prev" onclick="changeImage(-1)">&#10094;</span>
-      <img id="modalImg" src="" alt="Zoomed view">
+      <img id="modalImg" src="" alt="Zoomed view" onerror="this.src='/assets/images/logo.jpeg'">
       <span class="modal-next" onclick="changeImage(1)">&#10095;</span>
     </div>
   </div>
@@ -58,9 +58,10 @@
 
   <script>
     let currentIndex = 0;
+
     const galleryImages = [
-      '/assets/images/gallery-1.jpg',
-      '/assets/images/gallery-2.jpg'
+      '/assets/images/photo1.jpeg',
+      '/assets/images/photo2.jpeg'
     ];
 
     function openModal(index) {
@@ -81,6 +82,14 @@
       if (currentIndex >= galleryImages.length) currentIndex = 0;
       document.getElementById('modalImg').src = galleryImages[currentIndex];
     }
+
+    // Close modal when clicking outside the image
+    window.onclick = function(event) {
+      const modal = document.getElementById('imageModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    };
   </script>
 
 </body>
