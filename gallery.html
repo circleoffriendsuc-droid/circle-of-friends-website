@@ -1,60 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery - Circle of Friends Upliftment Centre</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo Gallery - Circle of Friends Upliftment Centre</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <div class="logo-container">
-            <img src="assets/images/logo.jpeg" alt="Circle of Friends Logo">
+
+  <header class="site-header">
+    <div class="logo-container">
+      <img src="/assets/images/logo.jpeg" alt="Circle of Friends Upliftment Centre Logo">
+    </div>
+    <h1 class="site-title">Circle of Friends Upliftment Centre</h1>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="services.html">Programme</a>
+      <a href="gallery.html" class="active">Gallery</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+  </header>
+
+  <section class="hero-banner">
+    <h1>Photo Gallery</h1>
+    <p>Click on any photo below to open full-screen view and navigate the slideshow.</p>
+  </section>
+
+  <main class="main-container">
+    <section class="content-section">
+      <h2>Programme Activities & Moments</h2>
+      
+      <div class="gallery-grid">
+        <div class="gallery-item" onclick="openModal(0)">
+          <img src="/assets/images/gallery-1.jpg" alt="Activity Image 1" onerror="this.src='/assets/images/logo.jpeg'">
         </div>
-        <h1>Circle of Friends Upliftment Centre</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="services.html">Programme</a></li>
-                <li><a href="gallery.html" class="active">Gallery</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section class="hero">
-            <h2>Photo Gallery</h2>
-            <p>Click on any photo below to open full-screen view and navigate the slideshow.</p>
-        </section>
-
-        <section style="padding: 30px 20px; max-width: 950px; margin: 0 auto; text-align: center;">
-            <h3>Programme Activities & Moments</h3>
-            
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="assets/images/photo1.jpeg" alt="Programme Activity 1">
-                </div>
-                <div class="gallery-item">
-                    <img src="assets/images/photo2.jpeg" alt="Programme Activity 2">
-                </div>
-            </div>
-        </section>
-
-        <!-- Interactive Lightbox Modal -->
-        <div id="lightbox-modal" class="lightbox">
-            <span class="lightbox-close">&times;</span>
-            <button class="lightbox-prev">&#10094;</button>
-            <img class="lightbox-content" id="lightbox-img" alt="Enlarged Gallery Photo">
-            <button class="lightbox-next">&#10095;</button>
+        <div class="gallery-item" onclick="openModal(1)">
+          <img src="/assets/images/gallery-2.jpg" alt="Activity Image 2" onerror="this.src='/assets/images/logo.jpeg'">
         </div>
-    </main>
+      </div>
+    </section>
+  </main>
 
-    <footer>
-        <p>&copy; 2026 Circle of Friends Upliftment Centre. All rights reserved.</p>
-    </footer>
+  <!-- Fullscreen Lightbox Modal -->
+  <div id="imageModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal()">&times;</span>
+      <span class="modal-prev" onclick="changeImage(-1)">&#10094;</span>
+      <img id="modalImg" src="" alt="Zoomed view">
+      <span class="modal-next" onclick="changeImage(1)">&#10095;</span>
+    </div>
+  </div>
 
-    <script src="js/script.js"></script>
+  <footer class="site-footer">
+    <p>&copy; 2026 Circle of Friends Upliftment Centre. All rights reserved.</p>
+  </footer>
+
+  <script>
+    let currentIndex = 0;
+    const galleryImages = [
+      '/assets/images/gallery-1.jpg',
+      '/assets/images/gallery-2.jpg'
+    ];
+
+    function openModal(index) {
+      currentIndex = index;
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImg');
+      modalImg.src = galleryImages[currentIndex];
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('imageModal').style.display = 'none';
+    }
+
+    function changeImage(direction) {
+      currentIndex += direction;
+      if (currentIndex < 0) currentIndex = galleryImages.length - 1;
+      if (currentIndex >= galleryImages.length) currentIndex = 0;
+      document.getElementById('modalImg').src = galleryImages[currentIndex];
+    }
+  </script>
+
 </body>
 </html>

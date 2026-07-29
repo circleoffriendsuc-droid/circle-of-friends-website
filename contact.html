@@ -1,95 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Circle of Friends Upliftment Centre</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Circle of Friends Upliftment Centre</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <div class="logo-container">
-            <img src="assets/images/logo.jpeg" alt="Circle of Friends Logo">
-        </div>
-        <h1>Circle of Friends Upliftment Centre</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="services.html">Programme</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
-                <li><a href="contact.html" class="active">Contact Us</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <main>
-        <section class="hero">
-            <h2>Contact Us</h2>
-            <p>Get in touch with us directly or send us a message below.</p>
-        </section>
-        
-        <section style="padding: 40px 20px; max-width: 900px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 40px;">
-            
-            <!-- Direct Centre Contact Details -->
-            <div style="flex: 1; min-width: 280px; background-color: #f4f7f9; padding: 25px; border-radius: 8px; border-left: 5px solid #004080;">
-                <h3>Centre Details</h3>
-                
-                <p style="margin-top: 15px;"><strong>Email Address:</strong><br>
-                    <a href="mailto:circleoffriendsuc@gmail.com" style="color: #004080; text-decoration: underline;">circleoffriendsuc@gmail.com</a>
-                </p>
+  <header class="site-header">
+    <div class="logo-container">
+      <img src="/assets/images/logo.jpeg" alt="Circle of Friends Upliftment Centre Logo">
+    </div>
+    <h1 class="site-title">Circle of Friends Upliftment Centre</h1>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="services.html">Programme</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="contact.html" class="active">Contact Us</a>
+    </nav>
+  </header>
 
-                <p style="margin-top: 15px;"><strong>Location:</strong><br>
-                    <a href="https://maps.google.com/?q=Unit+7,+10+East+Street,+Grassy+Park+Shopping+Centre,+Grassy+Park,+7941" target="_blank" rel="noopener noreferrer" style="color: #004080; text-decoration: underline;">
-                        Unit 7, 10 East Street,<br>
-                        Grassy Park Shopping Centre,<br>
-                        Grassy Park, 7941
-                    </a>
-                </p>
+  <section class="hero-banner">
+    <h1>Contact Us</h1>
+    <p>Get in touch with us directly or send us a message below.</p>
+  </section>
 
-                <h4 style="margin-top: 25px; color: #004080;">Founders Contact:</h4>
-                <p style="margin-top: 10px;"><strong>Wasiem Parker:</strong> 
-                    <a href="tel:0659011294" style="color: #004080; text-decoration: underline;">065 901 1294</a>
-                </p>
-                <p style="margin-top: 5px;"><strong>Yaseen De Villiers:</strong> 
-                    <a href="tel:0604318604" style="color: #004080; text-decoration: underline;">060 431 8604</a>
-                </p>
-            </div>
+  <main class="main-container">
+    <div class="contact-card">
+      <h2>Centre Details</h2>
+      <p><strong>Email Address:</strong> <a href="mailto:circleoffriendsuc@gmail.com">circleoffriendsuc@gmail.com</a></p>
+      <p><strong>Location:</strong> Unit 7, 10 East Street, Grassy Park Shopping Centre, Grassy Park, 7941</p>
+      <p style="margin-top: 15px;"><strong>Founders Contact:</strong></p>
+      <p>Wasiem Parker: <a href="tel:0659011294">065 901 1294</a></p>
+      <p>Yaseen De Villiers: <a href="tel:0604318604">060 431 8604</a></p>
+    </div>
 
-            <!-- Netlify Form -->
-            <div style="flex: 1; min-width: 280px;">
-                <h3>Send Us a Message</h3>
-                <form id="contact-form" name="contact" method="POST" data-netlify="true" style="display: flex; flex-direction: column; gap: 12px; margin-top: 15px;">
-                    <!-- Required hidden input for Netlify forms -->
-                    <input type="hidden" name="form-name" value="contact">
+    <section class="content-section">
+      <h2>Send Us a Message</h2>
+      <form class="contact-form" action="#" method="POST">
+        <label for="name">Your Full Name:</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
 
-                    <label for="cf-name">Your Full Name:</label>
-                    <input type="text" id="cf-name" name="name" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-                    
-                    <label for="cf-phone">Your Contact Number:</label>
-                    <input type="tel" id="cf-phone" name="phone" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+        <label for="phone">Your Contact Number:</label>
+        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
 
-                    <label for="cf-email">Your Email Address:</label>
-                    <input type="email" id="cf-email" name="email" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
-                    
-                    <label for="cf-message">Your Message:</label>
-                    <textarea id="cf-message" name="message" rows="4" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
-                    
-                    <button type="submit" style="padding: 12px; background-color: #004080; color: #ffffff; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 10px;">Send Message</button>
-                </form>
+        <label for="email">Your Email Address:</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email address" required>
 
-                <div id="contact-success" style="display: none; margin-top: 20px; padding: 20px; background-color: #e6f2ff; border-radius: 4px; text-align: center;">
-                    <p style="color: #004080; font-weight: bold; margin: 0; font-size: 16px;">Thank you! Your message has been sent directly to Circle of Friends Upliftment Centre.</p>
-                </div>
-            </div>
+        <label for="message">Your Message:</label>
+        <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
 
-        </section>
-    </main>
+        <button type="submit">Submit Message</button>
+      </form>
+    </section>
+  </main>
 
-    <footer>
-        <p>&copy; 2026 Circle of Friends Upliftment Centre. All rights reserved.</p>
-    </footer>
+  <footer class="site-footer">
+    <p>&copy; 2026 Circle of Friends Upliftment Centre. All rights reserved.</p>
+  </footer>
 
-    <script src="js/script.js"></script>
 </body>
 </html>
