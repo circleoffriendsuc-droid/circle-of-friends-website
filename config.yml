@@ -3,41 +3,17 @@ backend:
   branch: main
 
 media_folder: "assets/images"
-public_folder: "assets/images"
+public_folder: "/assets/images"
+
+logo_url: /assets/images/logo.jpeg
 
 collections:
-  - name: "pages"
-    label: "Pages"
-    delete: false
-    files:
-      - file: "index.html"
-        label: "Home Page"
-        name: "index"
-        fields:
-          - { label: "Page Title", name: "title", widget: "string" }
-
-      - file: "about.html"
-        label: "About Us Page"
-        name: "about"
-        fields:
-          - { label: "Page Title", name: "title", widget: "string" }
-
-      - file: "services.html"
-        label: "Services Page"
-        name: "services"
-        fields:
-          - { label: "Page Title", name: "title", widget: "string" }
-
-      - file: "contact.html"
-        label: "Contact Page"
-        name: "contact"
-        fields:
-          - { label: "Page Title", name: "title", widget: "string" }
-
   - name: "gallery"
     label: "Gallery Images"
     folder: "assets/images"
     create: true
+    slug: "{{slug}}"
     fields:
-      - { label: "Image Title", name: "title", widget: "string" }
-      - { label: "Image File", name: "image", widget: "image" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Image", name: "image", widget: "image" }
+      - { label: "Alt Text", name: "alt", widget: "string", required: false }
