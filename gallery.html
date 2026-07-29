@@ -24,7 +24,7 @@
 
   <section class="hero-banner">
     <h1>Photo Gallery</h1>
-    <p>Click on any photo below to open full-screen view and navigate the slideshow.</p>
+    <p>Click on any photo below to open full-screen view. You can use keyboard arrows or swipe on mobile to navigate.</p>
   </section>
 
   <main class="main-container">
@@ -42,7 +42,7 @@
     </section>
   </main>
 
-  <!-- Lightbox Modal -->
+  <!-- Interactive Lightbox Modal -->
   <div id="imageModal" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal()">&times;</span>
@@ -83,13 +83,54 @@
       document.getElementById('modalImg').src = galleryImages[currentIndex];
     }
 
-    // Close modal when clicking outside the image
+    // 1. Close modal when clicking outside the image
     window.onclick = function(event) {
       const modal = document.getElementById('imageModal');
       if (event.target === modal) {
         closeModal();
       }
     };
+
+    // 2. Keyboard Arrow Key Navigation (Left, Right, Escape)
+    document.addEventListener('keydown', function(event) {
+      const modal = document.getElementById('imageModal');
+      if (modal.style.display === 'flex') {
+        if (event.key === 'ArrowLeft') {
+          changeImage(-1);
+        } else if (event.key === 'ArrowRight') {
+          changeImage(1);
+        } else if (event.key === 'Escape') {
+          closeModal();
+        }
+      }
+    });
+
+    // 3. Mobile Touch Swipe Navigation (Left & Right Swipe)
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const modal = document.getElementById('imageModal');
+
+    modal.addEventListener('touchstart', function(event) {
+      touchStartX = event.changedTouches[0].screenX;
+    }, false);
+
+    modal.addEventListener('touchend', function(event) {
+      touchEndX = event.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+
+    function handleSwipe() {
+      const swipeDistance = touchEndX - touchStartX;
+      const minSwipeDistance = 40; // minimum pixels to count as a swipe
+
+      if (swipeDistance < -minSwipeDistance) {
+        // Swiped Left -> Show Next Photo
+        changeImage(1);
+      } else if (swipeDistance > minSwipeDistance) {
+        // Swiped Right -> Show Previous Photo
+        changeImage(-1);
+      }
+    }
   </script>
 
 </body>
