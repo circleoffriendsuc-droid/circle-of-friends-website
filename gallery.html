@@ -31,18 +31,12 @@
     <section class="content-section">
       <h2>Programme Activities & Moments</h2>
       
-      <div class="gallery-grid">
-        <div class="gallery-item" onclick="openModal(0)">
-          <img src="/assets/images/photo1.jpeg" alt="Gallery Photo 1" onerror="this.src='/assets/images/logo.jpeg'">
-        </div>
-        <div class="gallery-item" onclick="openModal(1)">
-          <img src="/assets/images/photo2.jpeg" alt="Gallery Photo 2" onerror="this.src='/assets/images/logo.jpeg'">
-        </div>
-      </div>
+      <!-- Dynamic Container for Images -->
+      <div class="gallery-grid" id="galleryGrid"></div>
     </section>
   </main>
 
-  <!-- Interactive Lightbox Modal -->
+  <!-- Lightbox Modal -->
   <div id="imageModal" class="modal">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal()">&times;</span>
@@ -58,13 +52,46 @@
 
   <script>
     let currentIndex = 0;
+    let galleryImages = [];
 
-    const galleryImages = [
-      '/assets/images/photo1.jpeg',
-      '/assets/images/photo2.jpeg'
-    ];
+    // Fetch dynamic JSON data from Decap CMS
+    async function loadGallery() {
+      try {
+        const response = await fetch('/data/gallery.json');
+        const data = await response.json();
+        
+        galleryImages = data.photos.map(item => item.image);
+        renderGallery(data.photos);
+      } catch (error) {
+        console.error('Error loading gallery data:', error);
+        // Fallback default images
+        galleryImages = ['/assets/images/photo1.jpeg', '/assets/images/photo2.jpeg'];
+        renderGallery([
+          { image: '/assets/images/photo1.jpeg', alt: 'Photo 1' },
+          { image: '/assets/images/photo2.jpeg', alt: 'Photo 2' }
+        ]);
+      }
+    }
+
+    function renderGallery(photos) {
+      const gridContainer = document.getElementById('galleryGrid');
+      if (!gridContainer) return;
+
+      gridContainer.innerHTML = '';
+
+      photos.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'gallery-item';
+        itemDiv.setAttribute('onclick', `openModal(${index})`);
+        itemDiv.innerHTML = `<img src="${item.image}" alt="${item.alt || 'Gallery Image'}" onerror="this.src='/assets/images/logo.jpeg'">`;
+        gridContainer.appendChild(itemDiv);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadGallery);
 
     function openModal(index) {
+      if (galleryImages.length === 0) return;
       currentIndex = index;
       const modal = document.getElementById('imageModal');
       const modalImg = document.getElementById('modalImg');
@@ -77,59 +104,39 @@
     }
 
     function changeImage(direction) {
+      if (galleryImages.length === 0) return;
       currentIndex += direction;
       if (currentIndex < 0) currentIndex = galleryImages.length - 1;
       if (currentIndex >= galleryImages.length) currentIndex = 0;
       document.getElementById('modalImg').src = galleryImages[currentIndex];
     }
 
-    // 1. Close modal when clicking outside the image
     window.onclick = function(event) {
       const modal = document.getElementById('imageModal');
-      if (event.target === modal) {
-        closeModal();
-      }
+      if (event.target === modal) closeModal();
     };
 
-    // 2. Keyboard Arrow Key Navigation (Left, Right, Escape)
     document.addEventListener('keydown', function(event) {
       const modal = document.getElementById('imageModal');
       if (modal.style.display === 'flex') {
-        if (event.key === 'ArrowLeft') {
-          changeImage(-1);
-        } else if (event.key === 'ArrowRight') {
-          changeImage(1);
-        } else if (event.key === 'Escape') {
-          closeModal();
-        }
+        if (event.key === 'ArrowLeft') changeImage(-1);
+        else if (event.key === 'ArrowRight') changeImage(1);
+        else if (event.key === 'Escape') closeModal();
       }
     });
 
-    // 3. Mobile Touch Swipe Navigation (Left & Right Swipe)
+    // Touch Swipe Support
     let touchStartX = 0;
     let touchEndX = 0;
     const modal = document.getElementById('imageModal');
 
-    modal.addEventListener('touchstart', function(event) {
-      touchStartX = event.changedTouches[0].screenX;
-    }, false);
-
-    modal.addEventListener('touchend', function(event) {
-      touchEndX = event.changedTouches[0].screenX;
-      handleSwipe();
-    }, false);
+    modal.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, false);
+    modal.addEventListener('touchend', e => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); }, false);
 
     function handleSwipe() {
       const swipeDistance = touchEndX - touchStartX;
-      const minSwipeDistance = 40; // minimum pixels to count as a swipe
-
-      if (swipeDistance < -minSwipeDistance) {
-        // Swiped Left -> Show Next Photo
-        changeImage(1);
-      } else if (swipeDistance > minSwipeDistance) {
-        // Swiped Right -> Show Previous Photo
-        changeImage(-1);
-      }
+      if (swipeDistance < -40) changeImage(1);
+      else if (swipeDistance > 40) changeImage(-1);
     }
   </script>
 
