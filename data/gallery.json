@@ -2,11 +2,11 @@
   "photos": [
     {
       "image": "/assets/images/photo1.jpeg",
-      "alt": "Photo 1"
+      "alt": "Community Centre Gathering"
     },
     {
-      "image": "/assets/images/photo2.jpeg",
-      "alt": "Photo 2"
+      "image": "/assets/images/1000765861.jpg",
+      "alt": "Centre Activity"
     }
   ]
 }
