@@ -1,0 +1,12 @@
+{
+  "photos": [
+    {
+      "image": "/assets/images/photo1.jpeg",
+      "alt": "Photo 1"
+    },
+    {
+      "image": "/assets/images/photo2.jpeg",
+      "alt": "Photo 2"
+    }
+  ]
+}
