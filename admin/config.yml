@@ -2,17 +2,18 @@ backend:
   name: git-gateway
   branch: main
 
-# Images will be saved in assets/images, but content files will go to a new gallery folder
+# Global Media Folder for original uploaded photos
 media_folder: "assets/images"
 public_folder: "/assets/images"
 
 collections:
   - name: "gallery"
     label: "Gallery"
-    folder: "gallery"            # Content files (.json) will be saved in a /gallery folder
-    create: true                 # Allows adding new gallery items
+    folder: "gallery"            # Forces content entries to be saved in /gallery/
+    create: true                 # Allows adding new items
     slug: "{{slug}}"
-    format: "json"               # Saves items as JSON instead of Markdown (.md)
+    extension: "json"            # Forces file output to be .json instead of .md
+    format: "json"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Image", name: "image", widget: "image" }
