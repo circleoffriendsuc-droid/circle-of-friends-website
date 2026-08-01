@@ -24,14 +24,14 @@
 
   <section class="hero-banner">
     <h1>Photo Gallery</h1>
-    <p>Click on any photo below to open full-screen view. You can use keyboard arrows or swipe on mobile to navigate.</p>
+    <p>Click on any photo below to open full-screen view. Use arrow keys or swipe on mobile to navigate.</p>
   </section>
 
   <main class="main-container">
     <section class="content-section">
       <h2>Programme Activities & Moments</h2>
       
-      <!-- Dynamic Container for Images -->
+      <!-- Gallery Container -->
       <div class="gallery-grid" id="galleryGrid"></div>
     </section>
   </main>
@@ -54,38 +54,45 @@
     let currentIndex = 0;
     let galleryImages = [];
 
-    // Fetch dynamic JSON data from Decap CMS
+    // Automatically load all JSON items created by Decap CMS inside the /gallery folder
     async function loadGallery() {
-      try {
-        const response = await fetch('/data/gallery.json');
-        const data = await response.json();
-        
-        galleryImages = data.photos.map(item => item.image);
-        renderGallery(data.photos);
-      } catch (error) {
-        console.error('Error loading gallery data:', error);
-        // Fallback default images
-        galleryImages = ['/assets/images/photo1.jpeg', '/assets/images/photo2.jpeg'];
-        renderGallery([
-          { image: '/assets/images/photo1.jpeg', alt: 'Photo 1' },
-          { image: '/assets/images/photo2.jpeg', alt: 'Photo 2' }
-        ]);
-      }
-    }
-
-    function renderGallery(photos) {
       const gridContainer = document.getElementById('galleryGrid');
-      if (!gridContainer) return;
-
       gridContainer.innerHTML = '';
+      galleryImages = [];
 
-      photos.forEach((item, index) => {
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'gallery-item';
-        itemDiv.setAttribute('onclick', `openModal(${index})`);
-        itemDiv.innerHTML = `<img src="${item.image}" alt="${item.alt || 'Gallery Image'}" onerror="this.src='/assets/images/logo.jpeg'">`;
-        gridContainer.appendChild(itemDiv);
-      });
+      try {
+        // Fetch index of gallery files from GitHub API
+        const repoPath = 'circleoffriendsuc-droid/circle-of-friends-website';
+        const response = await fetch(`https://api.github.com/repos/${repoPath}/contents/gallery`);
+        
+        if (!response.ok) throw new Error('Gallery folder not found or empty');
+
+        const files = await response.json();
+        const jsonFiles = files.filter(file => file.name.endsWith('.json'));
+
+        for (const file of jsonFiles) {
+          const res = await fetch(file.download_url);
+          const item = await res.json();
+          if (item.image) {
+            galleryImages.push(item.image);
+            
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'gallery-item';
+            const imgIndex = galleryImages.length - 1;
+            itemDiv.setAttribute('onclick', `openModal(${imgIndex})`);
+            itemDiv.innerHTML = `<img src="${item.image}" alt="${item.alt || item.title || 'Gallery Image'}" onerror="this.src='/assets/images/logo.jpeg'">`;
+            gridContainer.appendChild(itemDiv);
+          }
+        }
+      } catch (error) {
+        console.warn('Loading fallback static images:', error);
+        // Fallback images if API/folder is empty
+        galleryImages = ['/assets/images/photo1.jpeg', '/assets/images/photo2.jpeg'];
+        gridContainer.innerHTML = `
+          <div class="gallery-item" onclick="openModal(0)"><img src="/assets/images/photo1.jpeg" alt="Photo 1"></div>
+          <div class="gallery-item" onclick="openModal(1)"><img src="/assets/images/photo2.jpeg" alt="Photo 2"></div>
+        `;
+      }
     }
 
     document.addEventListener('DOMContentLoaded', loadGallery);
