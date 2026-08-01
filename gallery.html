@@ -54,43 +54,70 @@
     let currentIndex = 0;
     let galleryImages = [];
 
-    // Automatically load all JSON items created by Decap CMS inside the /gallery folder
     async function loadGallery() {
       const gridContainer = document.getElementById('galleryGrid');
       gridContainer.innerHTML = '';
       galleryImages = [];
 
+      const repoPath = 'circleoffriendsuc-droid/circle-of-friends-website';
+
       try {
-        // Fetch index of gallery files from GitHub API
-        const repoPath = 'circleoffriendsuc-droid/circle-of-friends-website';
-        const response = await fetch(`https://api.github.com/repos/${repoPath}/contents/gallery`);
+        // 1. Scan for files in both /gallery and /assets/images
+        const [galleryFolder, assetsFolder] = await Promise.all([
+          fetch(`https://api.github.com/repos/${repoPath}/contents/gallery`).then(res => res.ok ? res.json() : []),
+          fetch(`https://api.github.com/repos/${repoPath}/contents/assets/images`).then(res => res.ok ? res.json() : [])
+        ]);
+
+        const allFiles = [...galleryFolder, ...assetsFolder];
         
-        if (!response.ok) throw new Error('Gallery folder not found or empty');
+        // Filter out markdown (.md) or json (.json) content files created by Decap CMS
+        const contentFiles = allFiles.filter(f => f.name.endsWith('.json') || f.name.endsWith('.md'));
 
-        const files = await response.json();
-        const jsonFiles = files.filter(file => file.name.endsWith('.json'));
-
-        for (const file of jsonFiles) {
+        for (const file of contentFiles) {
           const res = await fetch(file.download_url);
-          const item = await res.json();
-          if (item.image) {
-            galleryImages.push(item.image);
+          const rawText = await res.text();
+          
+          let imagePath = null;
+          let altText = 'Gallery Image';
+
+          // Try parsing JSON format
+          if (file.name.endsWith('.json')) {
+            try {
+              const data = JSON.parse(rawText);
+              imagePath = data.image;
+              altText = data.alt || data.title || altText;
+            } catch (e) {}
+          } 
+          // Try parsing Frontmatter Markdown format (e.g. image: "/assets/images/...")
+          else if (file.name.endsWith('.md')) {
+            const match = rawText.match(/image:\s*["']?([^"'\r\n]+)["']?/);
+            if (match) imagePath = match[1];
+          }
+
+          if (imagePath) {
+            // Normalize path for web browser
+            if (!imagePath.startsWith('/')) imagePath = '/' + imagePath;
             
+            galleryImages.push(imagePath);
+            const imgIndex = galleryImages.length - 1;
+
             const itemDiv = document.createElement('div');
             itemDiv.className = 'gallery-item';
-            const imgIndex = galleryImages.length - 1;
             itemDiv.setAttribute('onclick', `openModal(${imgIndex})`);
-            itemDiv.innerHTML = `<img src="${item.image}" alt="${item.alt || item.title || 'Gallery Image'}" onerror="this.src='/assets/images/logo.jpeg'">`;
+            itemDiv.innerHTML = `<img src="${imagePath}" alt="${altText}" onerror="this.src='/assets/images/logo.jpeg'">`;
             gridContainer.appendChild(itemDiv);
           }
         }
       } catch (error) {
-        console.warn('Loading fallback static images:', error);
-        // Fallback images if API/folder is empty
-        galleryImages = ['/assets/images/photo1.jpeg', '/assets/images/photo2.jpeg'];
+        console.warn('Error loading dynamic CMS files, rendering fallback:', error);
+      }
+
+      // Fallback images if no CMS items were parsed
+      if (galleryImages.length === 0) {
+        galleryImages = ['/assets/images/photo1.jpeg', '/assets/images/logo.jpeg'];
         gridContainer.innerHTML = `
           <div class="gallery-item" onclick="openModal(0)"><img src="/assets/images/photo1.jpeg" alt="Photo 1"></div>
-          <div class="gallery-item" onclick="openModal(1)"><img src="/assets/images/photo2.jpeg" alt="Photo 2"></div>
+          <div class="gallery-item" onclick="openModal(1)"><img src="/assets/images/logo.jpeg" alt="Logo"></div>
         `;
       }
     }
@@ -132,7 +159,6 @@
       }
     });
 
-    // Touch Swipe Support
     let touchStartX = 0;
     let touchEndX = 0;
     const modal = document.getElementById('imageModal');
