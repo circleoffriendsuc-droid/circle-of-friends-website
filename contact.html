@@ -31,7 +31,14 @@
     <div class="contact-card">
       <h2>Centre Details</h2>
       <p><strong>Email Address:</strong> <a href="mailto:circleoffriendsuc@gmail.com">circleoffriendsuc@gmail.com</a></p>
-      <p><strong>Location:</strong> Unit 7, 10 East Street, Grassy Park Shopping Centre, Grassy Park, 7941</p>
+      
+      <!-- Location wrapped in a Google Maps hyperlink -->
+      <p><strong>Location:</strong> 
+        <a href="https://maps.google.com/?q=Unit+7,+10+East+Street,+Grassy+Park+Shopping+Centre,+Grassy+Park,+7941" target="_blank" rel="noopener noreferrer">
+          Unit 7, 10 East Street, Grassy Park Shopping Centre, Grassy Park, 7941
+        </a>
+      </p>
+
       <p style="margin-top: 15px;"><strong>Founders Contact:</strong></p>
       <p>Wasiem Parker: <a href="tel:0659011294">065 901 1294</a></p>
       <p>Yaseen De Villiers: <a href="tel:0604318604">060 431 8604</a></p>
@@ -39,7 +46,8 @@
 
     <section class="content-section">
       <h2>Send Us a Message</h2>
-      <form class="contact-form" action="#" method="POST">
+      <!-- Added name="contact" and netlify attributes to fix the 404 error -->
+      <form class="contact-form" name="contact" method="POST" netlify>
         <label for="name">Your Full Name:</label>
         <input type="text" id="name" name="name" placeholder="Enter your full name" required>
 
